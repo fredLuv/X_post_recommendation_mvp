@@ -368,10 +368,10 @@ def build_angle(cluster: TopicCluster, audience: AudienceProfile, insight: Clust
     secondary = best_secondary_phrase(cluster, insight, focus)
     frame_detail = FRAME_DESCRIPTIONS[insight.frame]
     if not has_confident_focus(cluster, insight):
-        return "Lead with the topic, not a weak slogan. Pull one concrete claim from the visible posts, add the takeaway your audience should care about, and close with the proof you would still want before making a stronger claim."
+        return "Start with the topic, pull out one concrete claim from the visible posts, add the takeaway your audience should care about, and note what would strengthen the case."
     if secondary:
-        return f"Lead with {focus}, connect it to {secondary}, then land the takeaway: {frame_detail}."
-    return f"Lead with {focus}, then make the takeaway explicit: {frame_detail}."
+        return f"Start with {focus}, connect it to {secondary}, then land the takeaway: {frame_detail}."
+    return f"Start with {focus}, then make the takeaway clear: {frame_detail}."
 
 
 def pick_format(audience: AudienceProfile) -> str:
