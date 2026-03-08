@@ -1,18 +1,20 @@
 from __future__ import annotations
 
-import asyncio
 import argparse
+import asyncio
 import json
 import re
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass, field
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 from x_trend_idea_mvp.constants import DEFAULT_FIXTURE_LOOKBACK_DAYS
 
 
-NUMERIC_LINE_RE = re.compile(r"^\d+(?:\.\d+)?[KMB]?$", re.IGNORECASE)
 STATUS_PATH_RE = re.compile(r"^/([^/]+)/status/(\d+)")
+URL_RE = re.compile(r"https?://\S+")
+WHITESPACE_RE = re.compile(r"\s+")
+TRIVIAL_TEXT_RE = re.compile(r"^(?:quote|replying to|show more|pinned)$", re.IGNORECASE)
 
 
 @dataclass
@@ -32,16 +34,25 @@ class ExtractedPost:
     author_id: str | None = None
 
 
+@dataclass
+class HandleDiagnostics:
+    handle: str
+    page_loaded: bool = False
+    load_error: str | None = None
+    articles_seen: int = 0
+    authored_candidates_seen: int = 0
+    parsed_posts: int = 0
+    duplicate_posts: int = 0
+    scroll_rounds_completed: int = 0
+    skipped: dict[str, int] = field(default_factory=dict)
+
+    def record_skip(self, reason: str) -> None:
+        self.skipped[reason] = self.skipped.get(reason, 0) + 1
+
+
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description="Extract visible public X profile posts into fixture JSON."
-    )
-    parser.add_argument(
-        "--handle",
-        action="append",
-        dest="handles",
-        help="X handle to extract. Can be repeated.",
-    )
+    parser = argparse.ArgumentParser(description="Extract visible public X profile posts into fixture JSON.")
+    parser.add_argument("--handle", action="append", dest="handles", help="X handle to extract. Can be repeated.")
     parser.add_argument(
         "--handles-file",
         help="JSON file with either {'accounts': [{'handle': '...'}]} or a raw list of handles.",
@@ -105,66 +116,72 @@ async def async_main() -> None:
 
     captured_at = datetime.now(tz=UTC)
     extracted_posts: list[dict] = []
+    diagnostics: list[HandleDiagnostics] = []
 
     async with async_playwright() as playwright:
         browser = await playwright.chromium.launch(headless=not args.headful)
         semaphore = asyncio.Semaphore(max(1, args.concurrency))
 
-        async def extract_handle(handle: str) -> list[dict]:
+        async def extract_handle(handle: str) -> tuple[list[dict], HandleDiagnostics]:
             async with semaphore:
                 page = await browser.new_page()
+                diagnostic = HandleDiagnostics(handle=handle)
                 try:
                     url = f"https://x.com/{handle}"
                     try:
                         await page.goto(url, wait_until="domcontentloaded", timeout=30_000)
                         await page.wait_for_timeout(2_000)
+                        diagnostic.page_loaded = True
                     except PlaywrightTimeoutError:
-                        return []
+                        diagnostic.load_error = "timeout"
+                        return [], diagnostic
+
                     handle_posts: list[dict] = []
                     seen_post_ids: set[str] = set()
                     prior_height = -1
-                    for _ in range(max(1, args.scroll_rounds)):
-                        articles = await page.locator("article").evaluate_all(
-                            """(nodes) => {
-                                return nodes.map((node) => {
-                                  const timeAnchor = node.querySelector('time')?.closest('a');
-                                  return {
-                                    text: node.innerText,
-                                    statusHref: timeAnchor?.getAttribute('href') || null,
-                                  };
-                                });
-                            }"""
-                        )
+
+                    for round_index in range(max(1, args.scroll_rounds)):
+                        articles = await extract_articles(page)
+                        diagnostic.articles_seen += len(articles)
 
                         for article in articles:
-                            parsed = parse_article(
+                            diagnostic.authored_candidates_seen += count_matching_statuses(handle, article.get("status_hrefs", []))
+                            parsed, reason = parse_article_data(
                                 profile_handle=handle,
-                                article_text=article["text"],
-                                status_href=article["statusHref"],
+                                article=article,
                                 captured_at=captured_at,
                                 tracked_query_id=args.tracked_query_id,
                                 lookback_days=args.lookback_days,
                             )
-                            if parsed is None or parsed.id in seen_post_ids:
+                            if parsed is None:
+                                diagnostic.record_skip(reason or "parse_failed")
+                                continue
+                            if parsed.id in seen_post_ids:
+                                diagnostic.duplicate_posts += 1
                                 continue
                             seen_post_ids.add(parsed.id)
                             handle_posts.append(parsed.__dict__)
+                            diagnostic.parsed_posts += 1
                             if len(handle_posts) >= args.posts_per_handle:
-                                return handle_posts
+                                diagnostic.scroll_rounds_completed = round_index + 1
+                                return handle_posts, diagnostic
 
                         current_height = await page.evaluate("document.body.scrollHeight")
+                        diagnostic.scroll_rounds_completed = round_index + 1
                         if current_height == prior_height:
                             break
                         prior_height = current_height
-                        await page.evaluate("window.scrollBy(0, Math.max(window.innerHeight * 1.5, 1200))")
-                        await page.wait_for_timeout(1_500)
-                    return handle_posts
+                        await page.evaluate("window.scrollBy(0, Math.max(window.innerHeight * 1.8, 1600))")
+                        await page.wait_for_timeout(1_800)
+
+                    return handle_posts, diagnostic
                 finally:
                     await page.close()
 
         results = await asyncio.gather(*(extract_handle(handle) for handle in handles))
-        for items in results:
+        for items, diagnostic in results:
             extracted_posts.extend(items)
+            diagnostics.append(diagnostic)
 
         await browser.close()
 
@@ -180,15 +197,66 @@ async def async_main() -> None:
             "notes": [
                 "Extracted from visible public X profile pages using browser automation.",
                 "This is snapshot data, not full API coverage.",
+                "Structured DOM extraction is used where possible before text fallback.",
                 "Relative timestamps were normalized at extraction time.",
             ],
         },
+        "diagnostics": [asdict(item) for item in diagnostics],
         "posts": deduplicate_posts(extracted_posts),
     }
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(payload, indent=2))
-    print({"output": str(output_path), "handles": len(handles), "posts": len(payload["posts"])})
+    print(
+        {
+            "output": str(output_path),
+            "handles": len(handles),
+            "posts": len(payload["posts"]),
+            "diagnostics": summarize_diagnostics(diagnostics),
+        }
+    )
+
+
+async def extract_articles(page) -> list[dict]:
+    return await page.locator("article").evaluate_all(
+        """(nodes) => {
+            const extractMetric = (node, testIds) => {
+              for (const testId of testIds) {
+                const metricNode = node.querySelector(`[data-testid="${testId}"] [dir="ltr"]`);
+                const metricText = metricNode?.textContent?.trim();
+                if (metricText) return metricText;
+              }
+              return null;
+            };
+
+            return nodes.map((node) => {
+              const timeNode = node.querySelector("time");
+              const timeAnchor = timeNode?.closest("a");
+              const statusHrefs = Array.from(node.querySelectorAll('a[href*="/status/"]'))
+                .map((link) => link.getAttribute("href"))
+                .filter(Boolean);
+              const textBlocks = Array.from(node.querySelectorAll('[data-testid="tweetText"]'))
+                .map((el) => el.innerText.trim())
+                .filter(Boolean);
+
+              return {
+                text_blocks: textBlocks,
+                article_text: node.innerText,
+                time_href: timeAnchor?.getAttribute("href") || null,
+                time_label: timeNode?.textContent?.trim() || null,
+                time_datetime: timeNode?.getAttribute("datetime") || null,
+                status_hrefs: statusHrefs,
+                reply_count: extractMetric(node, ["reply"]),
+                repost_count: extractMetric(node, ["retweet", "unretweet"]),
+                like_count: extractMetric(node, ["like", "unlike"]),
+                quote_count: extractMetric(node, ["quote"]),
+                impression_count: extractMetric(node, ["analytics"]),
+                lang: node.querySelector('[lang]')?.getAttribute("lang") || "en",
+                pinned: node.innerText.includes("Pinned"),
+              };
+            });
+        }"""
+    )
 
 
 def load_handles(handles: list[str] | None, handles_file: str | None) -> list[str]:
@@ -204,70 +272,94 @@ def load_handles(handles: list[str] | None, handles_file: str | None) -> list[st
     return sorted({handle.lstrip("@") for handle in collected})
 
 
-def parse_article(
+def parse_article_data(
     *,
     profile_handle: str,
-    article_text: str,
-    status_href: str | None,
+    article: dict,
     captured_at: datetime,
     tracked_query_id: str,
     lookback_days: int,
-) -> ExtractedPost | None:
-    status_match = STATUS_PATH_RE.match(status_href or "")
+) -> tuple[ExtractedPost | None, str | None]:
+    status_href = select_authored_status_href(profile_handle, article)
+    if status_href is None:
+        return None, "no_authored_status"
+
+    status_match = STATUS_PATH_RE.match(status_href)
     if status_match is None:
-        return None
+        return None, "bad_status_href"
 
     status_handle = status_match.group(1)
     status_id = status_match.group(2)
-    if status_handle.lower() != profile_handle.lower():
-        return None
-    lines = normalize_lines(article_text)
-    if not lines:
-        return None
 
-    author_handle, timestamp_label = extract_author_and_time(lines, status_handle)
-    if timestamp_label is None:
-        return None
-    created_at = parse_timestamp_label(timestamp_label, captured_at)
+    created_at = parse_article_timestamp(article, captured_at)
+    if created_at is None:
+        return None, "no_timestamp"
     if created_at < captured_at - timedelta(days=lookback_days):
-        return None
-    metrics = extract_metrics(lines)
-    body = extract_body(lines, author_handle, timestamp_label)
-    if not body:
-        return None
+        return None, "outside_lookback"
 
-    return ExtractedPost(
-        id=status_id,
-        author_handle=author_handle or profile_handle,
-        text=body,
-        created_at=created_at.isoformat().replace("+00:00", "Z"),
-        lang="en",
-        like_count=metrics["like_count"],
-        reply_count=metrics["reply_count"],
-        repost_count=metrics["repost_count"],
-        quote_count=0,
-        impression_count=metrics["impression_count"],
-        url=f"https://x.com/{status_handle}/status/{status_id}",
-        tracked_query_id=tracked_query_id,
+    body = extract_structured_body(article)
+    if not body:
+        body = extract_body_fallback(article.get("article_text", ""))
+    if not body:
+        return None, "empty_body"
+
+    return (
+        ExtractedPost(
+            id=status_id,
+            author_handle=status_handle or profile_handle,
+            text=body,
+            created_at=created_at.isoformat().replace("+00:00", "Z"),
+            lang=article.get("lang") or "en",
+            like_count=parse_metric(article.get("like_count")),
+            reply_count=parse_metric(article.get("reply_count")),
+            repost_count=parse_metric(article.get("repost_count")),
+            quote_count=parse_metric(article.get("quote_count")),
+            impression_count=parse_optional_metric(article.get("impression_count")),
+            url=f"https://x.com/{status_handle}/status/{status_id}",
+            tracked_query_id=tracked_query_id,
+        ),
+        None,
     )
 
 
-def normalize_lines(article_text: str) -> list[str]:
-    return [line.strip() for line in article_text.splitlines() if line.strip()]
+def select_authored_status_href(profile_handle: str, article: dict) -> str | None:
+    profile_handle = profile_handle.lower()
+    time_href = article.get("time_href")
+    if matches_profile_status(profile_handle, time_href):
+        return time_href
+
+    for href in article.get("status_hrefs", []):
+        if matches_profile_status(profile_handle, href):
+            return href
+    return None
 
 
-def extract_author_and_time(lines: list[str], fallback_handle: str) -> tuple[str, str | None]:
-    author_handle = fallback_handle
-    timestamp_label = None
-    for index, line in enumerate(lines):
-        if line.startswith("@"):
-            author_handle = line.lstrip("@")
-            if index + 2 < len(lines) and lines[index + 1] == "·":
-                timestamp_label = lines[index + 2]
-            elif index + 1 < len(lines):
-                timestamp_label = lines[index + 1]
-            break
-    return author_handle, timestamp_label
+def matches_profile_status(profile_handle: str, href: str | None) -> bool:
+    if href is None:
+        return False
+    match = STATUS_PATH_RE.match(href)
+    if match is None:
+        return False
+    return match.group(1).lower() == profile_handle
+
+
+def count_matching_statuses(profile_handle: str, status_hrefs: list[str]) -> int:
+    profile_handle = profile_handle.lower()
+    return sum(1 for href in status_hrefs if matches_profile_status(profile_handle, href))
+
+
+def parse_article_timestamp(article: dict, captured_at: datetime) -> datetime | None:
+    time_datetime = article.get("time_datetime")
+    if time_datetime:
+        try:
+            return datetime.fromisoformat(str(time_datetime).replace("Z", "+00:00")).astimezone(UTC)
+        except ValueError:
+            pass
+
+    time_label = article.get("time_label")
+    if not time_label:
+        return None
+    return parse_timestamp_label(str(time_label), captured_at)
 
 
 def parse_timestamp_label(label: str, captured_at: datetime) -> datetime:
@@ -293,30 +385,51 @@ def parse_timestamp_label(label: str, captured_at: datetime) -> datetime:
     return captured_at
 
 
-def extract_metrics(lines: list[str]) -> dict[str, int | None]:
-    trailing = []
-    for line in reversed(lines):
-        if NUMERIC_LINE_RE.match(line):
-            trailing.append(line)
+def extract_structured_body(article: dict) -> str:
+    text_blocks = [normalize_text_block(block) for block in article.get("text_blocks", [])]
+    text_blocks = [block for block in text_blocks if block]
+    if not text_blocks:
+        return ""
+    return text_blocks[0]
+
+
+def extract_body_fallback(article_text: str) -> str:
+    lines = [line.strip() for line in article_text.splitlines() if line.strip()]
+    content_lines: list[str] = []
+    for line in lines:
+        if TRIVIAL_TEXT_RE.match(line):
             continue
-        if trailing:
-            break
-    trailing = list(reversed(trailing))
-    reply_count = parse_metric(trailing[0]) if len(trailing) >= 1 else 0
-    repost_count = parse_metric(trailing[1]) if len(trailing) >= 2 else 0
-    like_count = parse_metric(trailing[2]) if len(trailing) >= 3 else 0
-    impression_count = parse_metric(trailing[3]) if len(trailing) >= 4 else None
-    return {
-        "reply_count": reply_count,
-        "repost_count": repost_count,
-        "like_count": like_count,
-        "impression_count": impression_count,
-    }
+        if parse_optional_metric(line) is not None:
+            continue
+        content_lines.append(line)
+
+    if content_lines and content_lines[0].endswith(" reposted"):
+        content_lines = content_lines[1:]
+    joined = " ".join(content_lines)
+    return normalize_text_block(joined)
 
 
-def parse_metric(value: str) -> int:
+def normalize_text_block(value: str) -> str:
+    value = URL_RE.sub(" ", value)
+    value = WHITESPACE_RE.sub(" ", value).strip()
+    if not value or TRIVIAL_TEXT_RE.match(value):
+        return ""
+    return value
+
+
+def parse_metric(value: str | None) -> int:
+    parsed = parse_optional_metric(value)
+    return parsed or 0
+
+
+def parse_optional_metric(value: str | None) -> int | None:
+    if value is None:
+        return None
+    normalized = str(value).strip().upper().replace(",", "")
+    if not normalized:
+        return None
+
     multiplier = 1
-    normalized = value.upper()
     if normalized.endswith("K"):
         multiplier = 1_000
         normalized = normalized[:-1]
@@ -326,35 +439,30 @@ def parse_metric(value: str) -> int:
     elif normalized.endswith("B"):
         multiplier = 1_000_000_000
         normalized = normalized[:-1]
-    return int(float(normalized) * multiplier)
 
-
-def extract_body(lines: list[str], author_handle: str, timestamp_label: str) -> str:
-    start_index = 0
-    for index, line in enumerate(lines):
-        if line == f"@{author_handle}" and index + 2 < len(lines):
-            if lines[index + 1] == "·" and lines[index + 2] == timestamp_label:
-                start_index = index + 3
-                break
-
-    content_lines: list[str] = []
-    for line in lines[start_index:]:
-        if NUMERIC_LINE_RE.match(line):
-            break
-        if line in {"GIF", "Image", "Pinned", "Article", "Show more"}:
-            continue
-        content_lines.append(line)
-
-    if content_lines and content_lines[0].endswith(" reposted"):
-        content_lines = content_lines[1:]
-    return " ".join(content_lines).strip()
+    try:
+        return int(float(normalized) * multiplier)
+    except ValueError:
+        return None
 
 
 def deduplicate_posts(posts: list[dict]) -> list[dict]:
     seen: dict[str, dict] = {}
     for post in posts:
-        seen[post["id"]] = post
+        existing = seen.get(post["id"])
+        if existing is None or len(post.get("text", "")) > len(existing.get("text", "")):
+            seen[post["id"]] = post
     return list(seen.values())
+
+
+def summarize_diagnostics(items: list[HandleDiagnostics]) -> dict[str, int]:
+    loaded = sum(1 for item in items if item.page_loaded)
+    with_posts = sum(1 for item in items if item.parsed_posts > 0)
+    return {
+        "loaded_handles": loaded,
+        "handles_with_posts": with_posts,
+        "handles_without_posts": len(items) - with_posts,
+    }
 
 
 if __name__ == "__main__":

@@ -150,6 +150,8 @@ cd /Users/fred/GPT-CODE
   --max-recommendations 8
 ```
 
+The extractor now writes a `diagnostics` block into the fixture output so you can see which handles loaded, which produced authored posts, and why individual articles were skipped.
+
 ## Live X API Path
 
 There is still a live X ingestion path in the codebase, but it requires:
