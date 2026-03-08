@@ -431,7 +431,7 @@ export default function App() {
                 </section>
 
                 <section className="rounded-[24px] border border-black/6 bg-white/86 p-5">
-                  <span className="eyebrow">Cautions</span>
+                  <span className="eyebrow">Keep in mind</span>
                   <ul className="mt-3 grid gap-3 pl-5 text-sm leading-6 text-orange-800">
                     {selectedRecommendation.risks.map((risk) => (
                       <li key={`${selectedRecommendation.id}-${risk}`}>{risk}</li>

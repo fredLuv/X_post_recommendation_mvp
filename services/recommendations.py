@@ -322,26 +322,26 @@ def build_recommendation_text(cluster: TopicCluster, insight: ClusterInsight) ->
 
     if not has_confident_focus(cluster, insight):
         if frame == "research":
-            return f"Write a short evidence-led brief on {topic}: which datapoint is surfacing, what it may mean, and what still needs confirmation."
+            return f"A good angle for {topic}: turn the visible datapoint into a short brief that explains what it may mean and what still needs confirmation."
         if frame == "infrastructure":
-            return f"Write a short explainer on {topic}: which infrastructure change keeps surfacing, and who it could actually change workflows for."
+            return f"A good angle for {topic}: explain the infrastructure shift showing up in the snapshot and who it could matter for in practice."
         if frame == "adoption":
-            return f"Write a short read on {topic}: which usage claim is surfacing, and what would distinguish real adoption from temporary noise."
+            return f"A good angle for {topic}: unpack the usage claim showing up in the snapshot and what would separate durable adoption from short-lived noise."
         if insight.promotional_ratio >= 0.6:
-            return f"Write a short read on {topic}: separate the campaign mechanics from any real usage or market signal underneath them."
-        return f"Write a clean explainer on {topic}: what the visible posts are actually pointing to, and what still looks unproven."
+            return f"A good angle for {topic}: look past the campaign layer and explain whether there is a real usage or market signal underneath it."
+        return f"A good angle for {topic}: summarize what the visible posts are pointing to and where the signal still looks early."
 
     if frame == "launch":
-        return f"Turn {focus} into a short brief: what is actually new, who it is for, and what would make it stick beyond launch-week chatter."
+        return f"A strong post here would center on {focus}: what is actually new, who it is for, and what would make it matter beyond launch-week chatter."
     if frame == "adoption":
-        return f"Use {focus} as the lead proof point, then explain whether this looks like durable usage or a short-lived growth spike."
+        return f"A strong post here would use {focus} as the lead proof point, then explain whether it looks like durable usage or a short-lived growth spike."
     if frame == "infrastructure":
-        return f"Explain the infrastructure change underneath {focus}, and spell out which workflow it meaningfully changes for operators or builders."
+        return f"A strong post here would explain the infrastructure change underneath {focus} and spell out which workflow it meaningfully changes."
     if frame == "market-structure":
-        return f"Write the market-structure read on {focus}: where access, liquidity, or distribution shifts if this cluster is real."
+        return f"A strong post here would use {focus} to explain where access, liquidity, or distribution could shift if this signal holds."
     if frame == "research":
-        return f"Convert {focus} into an evidence-led note: what the datapoint suggests, what it does not prove yet, and what would confirm it next."
-    return f"Write a clean explainer on {topic} anchored in {focus}, with more interpretation than recap."
+        return f"A strong post here would turn {focus} into an evidence-led note: what the datapoint suggests, what it does not prove yet, and what would confirm it next."
+    return f"A strong post here would anchor on {focus} and add more interpretation than recap."
 
 
 def build_snapshot_read(cluster: TopicCluster, insight: ClusterInsight) -> str:
@@ -398,18 +398,18 @@ def build_risks(cluster: TopicCluster, insight: ClusterInsight) -> list[str]:
     author_count = len(cluster_authors(cluster))
 
     if post_count <= 3:
-        risks.append("The sample is thin. Write this as a snapshot read, not as a market-wide conclusion.")
+        risks.append("The sample is still small, so it is better treated as an early read than a broad market conclusion.")
     if author_count <= 1:
-        risks.append("Most of the visible signal comes from one account, so do not frame it as broad consensus.")
+        risks.append("Most of the visible signal comes from one account, so it may be better framed as a single-source view than broad consensus.")
     if insight.promotional_ratio >= 0.4:
-        risks.append("A large share of the source posts are promotional or campaign-like. Separate the underlying signal from the call-to-action wrapper.")
+        risks.append("A noticeable share of the source posts are campaign-like, so it helps to separate the underlying signal from the call-to-action wrapper.")
     if insight.focus.lower() in {normalize_keyword(cluster.label or ""), "", "launch"}:
-        risks.append("The focus phrase is still generic. Sharpen it with one concrete metric, customer, or workflow before posting.")
+        risks.append("The current focus is still broad. Adding one concrete metric, customer, or workflow would make the post more specific.")
     if cluster.signals and cluster.signals.saturation_risk >= 0.6:
-        risks.append("This cluster is already crowded, so a recap will blend in unless you add a sharper interpretation.")
+        risks.append("This cluster already has plenty of surface-level conversation, so a sharper point of view will help the post stand out.")
 
     if not risks:
-        risks.append("Do not mirror the source posts. Add the missing implication, caveat, or next signal to watch.")
+        risks.append("The simplest way to make this stronger is to add the implication, caveat, or next signal the source posts leave out.")
     return risks[:3]
 
 
