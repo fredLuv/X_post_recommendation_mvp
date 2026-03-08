@@ -390,7 +390,7 @@ export default function App() {
                 </div>
 
                 <section className="rounded-[24px] border border-white/70 bg-linear-to-br from-aqua-450/10 to-sand-300/35 p-5">
-                  <span className="eyebrow">Angle to write</span>
+                  <span className="eyebrow">How to frame it</span>
                   <p className="mt-3 text-sm leading-6 text-ink-800">{selectedRecommendation.suggested_angle}</p>
                 </section>
 
