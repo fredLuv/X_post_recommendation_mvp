@@ -50,7 +50,7 @@ function buildQuickStats(recommendations) {
   return [
     { label: "Live ideas", value: recommendations.length },
     { label: "Evidence lines", value: evidenceCount },
-    { label: "Hooks ready", value: hookCount },
+    { label: "Angles", value: hookCount },
   ];
 }
 
@@ -372,7 +372,7 @@ export default function App() {
 
                 <div className="mt-4 flex items-center justify-between gap-3 text-sm text-ink-600">
                   <span className="capitalize">{item.format.replace("_", " ")}</span>
-                  <span>{item.draft_hooks.length} hooks ready</span>
+                  <span>{item.draft_hooks.length} ways in</span>
                 </div>
               </article>
             ))}
@@ -395,7 +395,7 @@ export default function App() {
                 </section>
 
                 <section className="rounded-[24px] border border-black/6 bg-white/86 p-5">
-                  <span className="eyebrow">Current signal</span>
+                  <span className="eyebrow">Snapshot read</span>
                   <p className="mt-3 text-sm leading-6 text-ink-800">{selectedRecommendation.why_now}</p>
                 </section>
 
@@ -422,7 +422,7 @@ export default function App() {
                 </section>
 
                 <section className="rounded-[24px] border border-black/6 bg-white/86 p-5">
-                  <span className="eyebrow">Hooks to test</span>
+                  <span className="eyebrow">Ways in</span>
                   <ul className="mt-3 grid gap-3 pl-5 text-sm leading-6 text-ink-800">
                     {selectedRecommendation.draft_hooks.map((hook) => (
                       <li key={`${selectedRecommendation.id}-${hook}`}>{hook}</li>
@@ -431,7 +431,7 @@ export default function App() {
                 </section>
 
                 <section className="rounded-[24px] border border-black/6 bg-white/86 p-5">
-                  <span className="eyebrow">Failure mode</span>
+                  <span className="eyebrow">Cautions</span>
                   <ul className="mt-3 grid gap-3 pl-5 text-sm leading-6 text-orange-800">
                     {selectedRecommendation.risks.map((risk) => (
                       <li key={`${selectedRecommendation.id}-${risk}`}>{risk}</li>

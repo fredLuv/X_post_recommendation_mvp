@@ -4,6 +4,8 @@ import re
 from collections import Counter
 
 
+DOMAIN_PATTERN = re.compile(r"\b[\w-]+\.(?:com|io|org|app|xyz|co|net)\b", re.IGNORECASE)
+
 STOPWORDS = {
     "a",
     "an",
@@ -70,18 +72,28 @@ STOPWORDS = {
     "two",
     "used",
     "using",
+    "us",
     "what",
+    "we",
     "where",
     "who",
     "were",
     "week",
+    "re",
 }
 
 
-def clean_text(value: str) -> str:
+def preprocess_text(value: str) -> str:
     value = value.lower()
     value = re.sub(r"https?://\S+", " ", value)
+    value = DOMAIN_PATTERN.sub(" ", value)
+    value = re.sub(r"\bhttps?\b", " ", value)
     value = re.sub(r"[@#](\w+)", r" \1 ", value)
+    return re.sub(r"\s+", " ", value).strip()
+
+
+def clean_text(value: str) -> str:
+    value = preprocess_text(value)
     value = re.sub(r"[^a-z0-9\s]", " ", value)
     return re.sub(r"\s+", " ", value).strip()
 
@@ -110,9 +122,7 @@ def normalize_keyword(token: str) -> str:
 
 
 def extract_keywords(value: str, limit: int = 8) -> list[str]:
-    raw = value.lower()
-    raw = re.sub(r"https?://\S+", " ", raw)
-    raw = re.sub(r"[@#](\w+)", r" \1 ", raw)
+    raw = preprocess_text(value)
     words = []
     for token in re.findall(r"[a-z0-9_']+", raw):
         normalized = normalize_keyword(token)
