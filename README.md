@@ -22,7 +22,10 @@ The current useful parts are:
   There is a curated crypto org/KOL account list plus a ready fixture pipeline.
 
 - `Explanation-first output`
-  The app does not just return topic labels. It returns recommendation objects with evidence and a suggested writing angle.
+  The app does not just return topic labels. It returns recommendation objects with a snapshot read, suggested angle, evidence, cautions, and opening ideas.
+
+- `Safer recommendation fallback`
+  The recommendation layer now uses TF-IDF phrase extraction plus snapshot-aware fallbacks. If the extracted phrase is weak, the app falls back to the topic label instead of pretending it found a precise insight.
 
 - `Interactive local UI`
   The frontend reads the live API and lets you filter, browse, and inspect recommendations in a cleaner feed-style layout.
@@ -33,8 +36,9 @@ The current useful parts are:
 ## Current Limitations
 
 - Public profile extraction is still partial. Some requested KOL handles may yield no captured posts.
-- Topic quality is still heuristic. Recommendation quality depends on the cluster quality underneath.
+- The recommendation layer is improved, but not learned end-to-end. TF-IDF helps suppress some noise, while `frame` and fallback behavior are still heuristic.
 - This is snapshot-driven, not live trend intelligence.
+- Sparse or promo-heavy clusters will intentionally collapse to broader copy like `Write a short evidence-led brief on Messari...` instead of fake specificity.
 - The app currently works better for `org + ecosystem signal` than for broad `individual KOL discourse`.
 
 ## Project Layout
@@ -114,7 +118,8 @@ Expected current shape:
 
 - around `70` imported posts from the expanded fixture
 - around `6` topic clusters on the current corpus
-- recommendation topics such as `Binance`, `Base`, `Chainlink`, `Messari`, `a16z crypto`, `Coinbase`
+- recommendation topics such as `Binance`, `Base`, `Chainlink`, `Messari`, `Solana`, `Coinbase`
+- snapshot-aware recommendation copy that falls back to broader briefs when phrase confidence is weak
 
 ## Fresh Fixture Workflow
 
@@ -190,18 +195,21 @@ The highest-value next steps are backend, not more frontend polish:
    Right now many requested KOL handles still produce zero captured posts in the public-profile flow.
 
 2. Improve topic summarization.
-   Recommendations are less repetitive now, but weak cluster keywords can still leak into angles and hooks.
+   The phrase extractor is better than before, but weak clusters still need a stronger summarization path than raw TF-IDF plus heuristics.
 
 3. Separate org signal from KOL signal.
    The current expanded crypto corpus is still dominated by org accounts like `MessariCrypto`, `coinbase`, `base`, and `binance`.
 
-4. Add representative post surfacing in the UI.
+4. Replace heuristic framing.
+   `frame` is still inferred from marker words such as `launch`, `research`, and `market-structure`. That should either become a small classifier or be hidden when confidence is low.
+
+5. Add representative post surfacing in the UI.
    The recommendation cards should link back to the strongest source posts instead of only showing generic evidence bullets.
 
-5. Add a small evaluation harness.
+6. Add a small evaluation harness.
    Save fixture snapshots plus expected cluster labels so clustering changes can be regression-tested.
 
-6. Decide the product direction explicitly.
+7. Decide the product direction explicitly.
    Either:
    - `org/account research tool`
    - `KOL narrative monitor`
