@@ -1,5 +1,7 @@
 # X Trend Idea MVP
 
+![X Trend Idea MVP screenshot](./readme-screenshot.png)
+
 Explanation-first content recommendation MVP built around public X signals.
 
 This project is intentionally not a full X analytics platform. It is a practical MVP for:
