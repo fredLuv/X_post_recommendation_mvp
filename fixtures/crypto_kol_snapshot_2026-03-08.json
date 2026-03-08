@@ -1,0 +1,301 @@
+{
+  "source": {
+    "type": "public_profile_extractor",
+    "platform": "x",
+    "captured_at": "2026-03-08T21:30:30.204978+00:00",
+    "handles": [
+      "Arthur_0x",
+      "DegenSpartan",
+      "KyleSamani",
+      "Mando_CTM",
+      "RyanWatkins_",
+      "SantiagoRoel",
+      "StaniKulechov",
+      "VitalikButerin",
+      "aeyakovenko",
+      "cdixon",
+      "cobie",
+      "danrobinson",
+      "haydenzadams",
+      "hsakaTrades",
+      "joemccann",
+      "milesdeutscher",
+      "punk6529",
+      "sassal0x"
+    ],
+    "lookback_days": 30,
+    "posts_per_handle": 12,
+    "scroll_rounds": 12,
+    "notes": [
+      "Extracted from visible public X profile pages using browser automation.",
+      "This is snapshot data, not full API coverage.",
+      "Structured DOM extraction is used where possible before text fallback.",
+      "Relative timestamps were normalized at extraction time."
+    ]
+  },
+  "diagnostics": [
+    {
+      "handle": "Arthur_0x",
+      "page_loaded": true,
+      "load_error": null,
+      "articles_seen": 0,
+      "authored_candidates_seen": 0,
+      "parsed_posts": 0,
+      "duplicate_posts": 0,
+      "scroll_rounds_completed": 2,
+      "skipped": {}
+    },
+    {
+      "handle": "DegenSpartan",
+      "page_loaded": true,
+      "load_error": null,
+      "articles_seen": 127,
+      "authored_candidates_seen": 295,
+      "parsed_posts": 0,
+      "duplicate_posts": 0,
+      "scroll_rounds_completed": 12,
+      "skipped": {
+        "outside_lookback": 123,
+        "no_authored_status": 4
+      }
+    },
+    {
+      "handle": "KyleSamani",
+      "page_loaded": true,
+      "load_error": null,
+      "articles_seen": 160,
+      "authored_candidates_seen": 358,
+      "parsed_posts": 0,
+      "duplicate_posts": 0,
+      "scroll_rounds_completed": 12,
+      "skipped": {
+        "outside_lookback": 153,
+        "no_authored_status": 7
+      }
+    },
+    {
+      "handle": "Mando_CTM",
+      "page_loaded": true,
+      "load_error": null,
+      "articles_seen": 0,
+      "authored_candidates_seen": 0,
+      "parsed_posts": 0,
+      "duplicate_posts": 0,
+      "scroll_rounds_completed": 2,
+      "skipped": {}
+    },
+    {
+      "handle": "RyanWatkins_",
+      "page_loaded": true,
+      "load_error": null,
+      "articles_seen": 124,
+      "authored_candidates_seen": 351,
+      "parsed_posts": 0,
+      "duplicate_posts": 0,
+      "scroll_rounds_completed": 12,
+      "skipped": {
+        "outside_lookback": 124
+      }
+    },
+    {
+      "handle": "SantiagoRoel",
+      "page_loaded": true,
+      "load_error": null,
+      "articles_seen": 199,
+      "authored_candidates_seen": 436,
+      "parsed_posts": 0,
+      "duplicate_posts": 0,
+      "scroll_rounds_completed": 12,
+      "skipped": {
+        "outside_lookback": 199
+      }
+    },
+    {
+      "handle": "StaniKulechov",
+      "page_loaded": true,
+      "load_error": null,
+      "articles_seen": 127,
+      "authored_candidates_seen": 299,
+      "parsed_posts": 1,
+      "duplicate_posts": 1,
+      "scroll_rounds_completed": 12,
+      "skipped": {
+        "outside_lookback": 122,
+        "no_authored_status": 3
+      }
+    },
+    {
+      "handle": "VitalikButerin",
+      "page_loaded": true,
+      "load_error": null,
+      "articles_seen": 172,
+      "authored_candidates_seen": 403,
+      "parsed_posts": 0,
+      "duplicate_posts": 0,
+      "scroll_rounds_completed": 12,
+      "skipped": {
+        "outside_lookback": 172
+      }
+    },
+    {
+      "handle": "aeyakovenko",
+      "page_loaded": true,
+      "load_error": null,
+      "articles_seen": 0,
+      "authored_candidates_seen": 0,
+      "parsed_posts": 0,
+      "duplicate_posts": 0,
+      "scroll_rounds_completed": 2,
+      "skipped": {}
+    },
+    {
+      "handle": "cdixon",
+      "page_loaded": true,
+      "load_error": null,
+      "articles_seen": 191,
+      "authored_candidates_seen": 411,
+      "parsed_posts": 0,
+      "duplicate_posts": 0,
+      "scroll_rounds_completed": 12,
+      "skipped": {
+        "outside_lookback": 191
+      }
+    },
+    {
+      "handle": "cobie",
+      "page_loaded": true,
+      "load_error": null,
+      "articles_seen": 179,
+      "authored_candidates_seen": 422,
+      "parsed_posts": 0,
+      "duplicate_posts": 0,
+      "scroll_rounds_completed": 12,
+      "skipped": {
+        "outside_lookback": 179
+      }
+    },
+    {
+      "handle": "danrobinson",
+      "page_loaded": true,
+      "load_error": null,
+      "articles_seen": 77,
+      "authored_candidates_seen": 189,
+      "parsed_posts": 1,
+      "duplicate_posts": 1,
+      "scroll_rounds_completed": 7,
+      "skipped": {
+        "outside_lookback": 75
+      }
+    },
+    {
+      "handle": "haydenzadams",
+      "page_loaded": true,
+      "load_error": null,
+      "articles_seen": 150,
+      "authored_candidates_seen": 348,
+      "parsed_posts": 0,
+      "duplicate_posts": 0,
+      "scroll_rounds_completed": 12,
+      "skipped": {
+        "outside_lookback": 150
+      }
+    },
+    {
+      "handle": "hsakaTrades",
+      "page_loaded": true,
+      "load_error": null,
+      "articles_seen": 55,
+      "authored_candidates_seen": 148,
+      "parsed_posts": 0,
+      "duplicate_posts": 0,
+      "scroll_rounds_completed": 6,
+      "skipped": {
+        "outside_lookback": 55
+      }
+    },
+    {
+      "handle": "joemccann",
+      "page_loaded": true,
+      "load_error": null,
+      "articles_seen": 118,
+      "authored_candidates_seen": 302,
+      "parsed_posts": 0,
+      "duplicate_posts": 0,
+      "scroll_rounds_completed": 12,
+      "skipped": {
+        "outside_lookback": 118
+      }
+    },
+    {
+      "handle": "milesdeutscher",
+      "page_loaded": true,
+      "load_error": null,
+      "articles_seen": 155,
+      "authored_candidates_seen": 360,
+      "parsed_posts": 0,
+      "duplicate_posts": 0,
+      "scroll_rounds_completed": 12,
+      "skipped": {
+        "outside_lookback": 155
+      }
+    },
+    {
+      "handle": "punk6529",
+      "page_loaded": true,
+      "load_error": null,
+      "articles_seen": 160,
+      "authored_candidates_seen": 376,
+      "parsed_posts": 0,
+      "duplicate_posts": 0,
+      "scroll_rounds_completed": 12,
+      "skipped": {
+        "outside_lookback": 160
+      }
+    },
+    {
+      "handle": "sassal0x",
+      "page_loaded": true,
+      "load_error": null,
+      "articles_seen": 171,
+      "authored_candidates_seen": 384,
+      "parsed_posts": 0,
+      "duplicate_posts": 0,
+      "scroll_rounds_completed": 12,
+      "skipped": {
+        "outside_lookback": 171
+      }
+    }
+  ],
+  "posts": [
+    {
+      "id": "2022022179659874709",
+      "author_handle": "StaniKulechov",
+      "text": "Since ETHLend in 2017, our mission has been to bring DeFi to the masses, powered by the Aave protocol and an application layer that now provides access to a $50B+ liquidity network. Today, we\u2019re proposing a new framework where Aave Labs becomes fully token-centric and redirects",
+      "created_at": "2026-02-12T18:57:09Z",
+      "lang": "en",
+      "like_count": 737,
+      "reply_count": 75,
+      "repost_count": 113,
+      "quote_count": 0,
+      "impression_count": null,
+      "url": "https://x.com/StaniKulechov/status/2022022179659874709",
+      "tracked_query_id": "CRYPTO_KOL",
+      "author_id": null
+    },
+    {
+      "id": "2022340884415521146",
+      "author_handle": "danrobinson",
+      "text": "Introducing the Prop AMM Challenge, the next mechanism design contest from me and @bqbrady Built on the Solana VM Allows arbitrary price curves, not just constant product Wider range of market conditions and assets Link in thread",
+      "created_at": "2026-02-13T16:03:34Z",
+      "lang": "en",
+      "like_count": 329,
+      "reply_count": 28,
+      "repost_count": 67,
+      "quote_count": 0,
+      "impression_count": null,
+      "url": "https://x.com/danrobinson/status/2022340884415521146",
+      "tracked_query_id": "CRYPTO_KOL",
+      "author_id": null
+    }
+  ]
+}
