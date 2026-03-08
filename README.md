@@ -39,14 +39,14 @@ The current useful parts are:
 
 ## Project Layout
 
-- Backend API: [main.py](/Users/fred/GPT-CODE/x_trend_idea_mvp/main.py)
-- Recommendation logic: [recommendations.py](/Users/fred/GPT-CODE/x_trend_idea_mvp/services/recommendations.py)
-- Clustering logic: [clustering.py](/Users/fred/GPT-CODE/x_trend_idea_mvp/services/clustering.py)
-- Fixture ingestion: [fixture_ingestion.py](/Users/fred/GPT-CODE/x_trend_idea_mvp/services/fixture_ingestion.py)
-- Public profile extractor: [public_profile_to_fixture.py](/Users/fred/GPT-CODE/x_trend_idea_mvp/scripts/public_profile_to_fixture.py)
-- One-shot pipeline runner: [run_fixture_pipeline.py](/Users/fred/GPT-CODE/x_trend_idea_mvp/scripts/run_fixture_pipeline.py)
-- Frontend: [frontend/src/App.jsx](/Users/fred/GPT-CODE/x_trend_idea_mvp/frontend/src/App.jsx)
-- Tailwind styling: [frontend/src/styles.css](/Users/fred/GPT-CODE/x_trend_idea_mvp/frontend/src/styles.css)
+- Backend API: [main.py](./main.py)
+- Recommendation logic: [recommendations.py](./services/recommendations.py)
+- Clustering logic: [clustering.py](./services/clustering.py)
+- Fixture ingestion: [fixture_ingestion.py](./services/fixture_ingestion.py)
+- Public profile extractor: [public_profile_to_fixture.py](./scripts/public_profile_to_fixture.py)
+- One-shot pipeline runner: [run_fixture_pipeline.py](./scripts/run_fixture_pipeline.py)
+- Frontend: [frontend/src/App.jsx](./frontend/src/App.jsx)
+- Tailwind styling: [frontend/src/styles.css](./frontend/src/styles.css)
 
 ## Install
 
@@ -120,8 +120,8 @@ Expected current shape:
 
 Curated source lists:
 
-- [crypto_expanded_accounts_2026-03-08.json](/Users/fred/GPT-CODE/x_trend_idea_mvp/fixtures/crypto_expanded_accounts_2026-03-08.json)
-- [crypto_kol_accounts_2026-03-08.json](/Users/fred/GPT-CODE/x_trend_idea_mvp/fixtures/crypto_kol_accounts_2026-03-08.json)
+- [crypto_expanded_accounts_2026-03-08.json](./fixtures/crypto_expanded_accounts_2026-03-08.json)
+- [crypto_kol_accounts_2026-03-08.json](./fixtures/crypto_kol_accounts_2026-03-08.json)
 
 If you want a fresh public-profile snapshot instead of the checked-in fixture:
 
@@ -165,8 +165,8 @@ Optional:
 
 Relevant code:
 
-- [ingestion.py](/Users/fred/GPT-CODE/x_trend_idea_mvp/services/ingestion.py)
-- [x_api.py](/Users/fred/GPT-CODE/x_trend_idea_mvp/services/x_api.py)
+- [ingestion.py](./services/ingestion.py)
+- [x_api.py](./services/x_api.py)
 
 ## API Surface
 

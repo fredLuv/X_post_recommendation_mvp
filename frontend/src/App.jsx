@@ -395,7 +395,7 @@ export default function App() {
                 </section>
 
                 <section className="rounded-[24px] border border-black/6 bg-white/86 p-5">
-                  <span className="eyebrow">Why now</span>
+                  <span className="eyebrow">Current signal</span>
                   <p className="mt-3 text-sm leading-6 text-ink-800">{selectedRecommendation.why_now}</p>
                 </section>
 

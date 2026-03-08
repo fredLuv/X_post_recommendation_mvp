@@ -103,9 +103,28 @@ def build_recommendation_text(cluster: TopicCluster, audience: AudienceProfile) 
 
 def build_why_now(cluster: TopicCluster) -> str:
     signals = cluster.signals
+    post_count = len(cluster.posts)
+    author_count = len(
+        {
+            link.post.author_id or link.post.author_handle
+            for link in cluster.posts
+            if link.post is not None
+        }
+    )
+
+    if signals.velocity >= 2.5:
+        return (
+            f"This is one of the stronger clusters in the current public snapshot, with {post_count} captured posts "
+            f"across {author_count} accounts and above-baseline activity."
+        )
+    if signals.velocity >= 1.2:
+        return (
+            f"This topic is showing repeated activity in the current public snapshot, with {post_count} captured posts "
+            f"across {author_count} accounts. It looks timely enough for an explainer, but not like a full breakout."
+        )
     return (
-        f"Discussion in this cluster accelerated over the last 24 hours, with a velocity of roughly "
-        f"{signals.velocity:.1f}x its weekly baseline and a high share of reaction-style posts."
+        f"This is a lighter signal from the current public snapshot: {post_count} captured posts across {author_count} "
+        f"accounts. Treat it as a directional cue, not a confirmed trend spike."
     )
 
 
