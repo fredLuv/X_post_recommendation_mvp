@@ -20,7 +20,7 @@ def main() -> None:
     parser.add_argument("--audience-name")
     parser.add_argument("--lookback-days", type=int, default=DEFAULT_FIXTURE_LOOKBACK_DAYS)
     parser.add_argument("--min-cluster-size", type=int, default=2)
-    parser.add_argument("--max-recommendations", type=int, default=5)
+    parser.add_argument("--max-recommendations", type=int, default=8)
     args = parser.parse_args()
 
     preset = PRESETS[args.preset]
