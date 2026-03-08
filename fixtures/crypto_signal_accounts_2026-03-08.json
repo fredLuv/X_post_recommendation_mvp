@@ -1,0 +1,86 @@
+{
+  "source": {
+    "type": "curated_account_set",
+    "platform": "x",
+    "captured_at": "2026-03-08T19:05:00-08:00",
+    "notes": [
+      "Curated for crypto trend detection rather than follower count alone.",
+      "This set is intended for manual profile parsing, fixture creation, or tracked-query seeding.",
+      "@a16zcrypto is included instead of @phantom to improve sector-framing and investor narrative coverage."
+    ]
+  },
+  "accounts": [
+    {
+      "handle": "solana",
+      "url": "https://x.com/solana",
+      "category": "protocol",
+      "reason": "High-signal source for Solana ecosystem launches, payments, and app distribution."
+    },
+    {
+      "handle": "ethereum",
+      "url": "https://x.com/ethereum",
+      "category": "protocol",
+      "reason": "Core Ethereum ecosystem signal for roadmap, coordination, and network-level framing."
+    },
+    {
+      "handle": "base",
+      "url": "https://x.com/base",
+      "category": "protocol",
+      "reason": "Useful for L2 consumer, app, and distribution narratives."
+    },
+    {
+      "handle": "coinbase",
+      "url": "https://x.com/coinbase",
+      "category": "exchange",
+      "reason": "Large distribution channel for market, product, and retail-facing shifts."
+    },
+    {
+      "handle": "binance",
+      "url": "https://x.com/binance",
+      "category": "exchange",
+      "reason": "Global exchange signal for listings, market structure, and user demand themes."
+    },
+    {
+      "handle": "krakenfx",
+      "url": "https://x.com/krakenfx",
+      "category": "exchange",
+      "reason": "Useful for more institutional and market-structure oriented exchange signal."
+    },
+    {
+      "handle": "chainlink",
+      "url": "https://x.com/chainlink",
+      "category": "infrastructure",
+      "reason": "Strong source for oracle, interoperability, and institutional integration narratives."
+    },
+    {
+      "handle": "a16zcrypto",
+      "url": "https://x.com/a16zcrypto",
+      "category": "investor",
+      "reason": "High-value sector framing, thesis posts, and narrative-level commentary across crypto."
+    },
+    {
+      "handle": "MessariCrypto",
+      "url": "https://x.com/MessariCrypto",
+      "category": "research",
+      "reason": "Structured research framing and ecosystem analysis."
+    },
+    {
+      "handle": "tokenterminal",
+      "url": "https://x.com/tokenterminal",
+      "category": "research",
+      "reason": "Metric-driven signal for usage, fees, and protocol performance."
+    },
+    {
+      "handle": "DefiLlama",
+      "url": "https://x.com/DefiLlama",
+      "category": "research",
+      "reason": "Fast-moving DeFi and onchain data signal with broad protocol coverage."
+    },
+    {
+      "handle": "VitalikButerin",
+      "url": "https://x.com/VitalikButerin",
+      "category": "individual",
+      "reason": "High-signal individual account for Ethereum and broader crypto-policy/product framing."
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "source": {
+    "type": "curated_account_set",
+    "platform": "x",
+    "captured_at": "2026-03-08T20:02:00-08:00",
+    "notes": [
+      "Merged crypto org and KOL account set for larger public-profile snapshot extraction.",
+      "Designed for no-spend fixture generation with better topic coverage."
+    ]
+  },
+  "accounts": [
+    { "handle": "solana" },
+    { "handle": "ethereum" },
+    { "handle": "base" },
+    { "handle": "coinbase" },
+    { "handle": "binance" },
+    { "handle": "krakenfx" },
+    { "handle": "chainlink" },
+    { "handle": "a16zcrypto" },
+    { "handle": "MessariCrypto" },
+    { "handle": "tokenterminal" },
+    { "handle": "DefiLlama" },
+    { "handle": "VitalikButerin" },
+    { "handle": "aeyakovenko" },
+    { "handle": "cdixon" },
+    { "handle": "SantiagoRoel" },
+    { "handle": "RyanWatkins_" },
+    { "handle": "sassal0x" },
+    { "handle": "milesdeutscher" },
+    { "handle": "Mando_CTM" },
+    { "handle": "hsakaTrades" },
+    { "handle": "cobie" },
+    { "handle": "punk6529" },
+    { "handle": "DegenSpartan" },
+    { "handle": "KyleSamani" },
+    { "handle": "joemccann" },
+    { "handle": "StaniKulechov" },
+    { "handle": "haydenzadams" },
+    { "handle": "danrobinson" },
+    { "handle": "Arthur_0x" }
+  ]
+}

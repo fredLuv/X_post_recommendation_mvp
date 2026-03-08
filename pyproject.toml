@@ -1,0 +1,19 @@
+[project]
+name = "x-trend-idea-mvp"
+version = "0.1.0"
+description = "Explanation-first X trend recommendation MVP"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.115.0,<1.0.0",
+  "httpx>=0.28.0,<1.0.0",
+  "sqlalchemy>=2.0.0,<3.0.0",
+  "uvicorn>=0.35.0,<1.0.0",
+]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["x_trend_idea_mvp*"]

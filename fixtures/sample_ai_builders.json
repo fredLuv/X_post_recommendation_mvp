@@ -1,0 +1,82 @@
+{
+  "posts": [
+    {
+      "id": "1900000000000000001",
+      "tracked_query_id": "REPLACE_QUERY_ID_1",
+      "author_handle": "opsbuilder",
+      "author_id": "u_001",
+      "text": "AI agents are shifting from demos to internal tooling. The interesting question is not hype, it is where workflow ownership actually moves.",
+      "created_at": "2026-03-08T16:00:00Z",
+      "lang": "en",
+      "like_count": 81,
+      "reply_count": 11,
+      "repost_count": 19,
+      "quote_count": 4
+    },
+    {
+      "id": "1900000000000000002",
+      "tracked_query_id": "REPLACE_QUERY_ID_1",
+      "author_handle": "productinfra",
+      "author_id": "u_002",
+      "text": "Most agent discourse is still reaction and hype. What teams need is a breakdown of where agent workflows reduce ops load and where they fail.",
+      "created_at": "2026-03-08T14:30:00Z",
+      "lang": "en",
+      "like_count": 64,
+      "reply_count": 7,
+      "repost_count": 14,
+      "quote_count": 2
+    },
+    {
+      "id": "1900000000000000003",
+      "tracked_query_id": "REPLACE_QUERY_ID_1",
+      "author_handle": "toolingmemo",
+      "author_id": "u_003",
+      "text": "Developer tools teams are reframing AI agents as workflow automation, not copilots. That changes how you think about reliability and ops.",
+      "created_at": "2026-03-07T20:00:00Z",
+      "lang": "en",
+      "like_count": 52,
+      "reply_count": 5,
+      "repost_count": 10,
+      "quote_count": 3
+    },
+    {
+      "id": "1900000000000000004",
+      "tracked_query_id": "REPLACE_QUERY_ID_2",
+      "author_handle": "devstack",
+      "author_id": "u_004",
+      "text": "Developer tools are getting more opinionated about AI workflow ownership. The best teams explain why orchestration matters before pushing another demo.",
+      "created_at": "2026-03-08T12:45:00Z",
+      "lang": "en",
+      "like_count": 43,
+      "reply_count": 6,
+      "repost_count": 9,
+      "quote_count": 1
+    },
+    {
+      "id": "1900000000000000005",
+      "tracked_query_id": "REPLACE_QUERY_ID_3",
+      "author_handle": "infrafoundry",
+      "author_id": "u_005",
+      "text": "Ops automation is starting to mean agent workflows with strict review loops, not just chat interfaces. Builders should explain that distinction clearly.",
+      "created_at": "2026-03-06T18:15:00Z",
+      "lang": "en",
+      "like_count": 38,
+      "reply_count": 4,
+      "repost_count": 8,
+      "quote_count": 1
+    },
+    {
+      "id": "1900000000000000006",
+      "tracked_query_id": "REPLACE_QUERY_ID_3",
+      "author_handle": "agentops",
+      "author_id": "u_006",
+      "text": "If you are writing about ops automation this week, the useful angle is where workflow execution changed, not whether agents are real.",
+      "created_at": "2026-03-05T17:00:00Z",
+      "lang": "en",
+      "like_count": 29,
+      "reply_count": 3,
+      "repost_count": 5,
+      "quote_count": 1
+    }
+  ]
+}

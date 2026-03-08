@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Avenir Next", "SF Pro Display", "Segoe UI", sans-serif;
+  --font-sans: "Avenir Next", "SF Pro Text", "Segoe UI", sans-serif;
+  --color-ink-950: #171320;
+  --color-ink-800: #372c47;
+  --color-ink-600: #71687d;
+  --color-aqua-350: #59c7bf;
+  --color-aqua-450: #169f96;
+  --color-coral-350: #ffb291;
+  --color-coral-450: #e98458;
+  --color-sand-300: #ead1b0;
+  --color-gold-350: #f3be4d;
+  --color-mint-450: #10a7a0;
+  --color-cream-50: #fbf7f1;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  body {
+    @apply bg-cream-50 text-ink-950 font-sans antialiased;
+    background-image:
+      radial-gradient(circle at top left, rgba(22, 159, 150, 0.16), transparent 26%),
+      radial-gradient(circle at top right, rgba(243, 190, 77, 0.14), transparent 20%),
+      linear-gradient(180deg, #fffaf4 0%, #f7f2ea 52%, #f2edf9 100%);
+  }
+
+  button,
+  input,
+  select {
+    font: inherit;
+  }
+
+  ::selection {
+    background: rgba(22, 159, 150, 0.2);
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply rounded-[28px] border border-white/70 bg-white/75 shadow-[0_24px_60px_rgba(31,23,44,0.12)] backdrop-blur-xl;
+  }
+
+  .glass-panel-soft {
+    @apply rounded-[24px] border border-black/5 bg-white/70 shadow-[0_18px_38px_rgba(31,23,44,0.08)] backdrop-blur-xl;
+  }
+
+  .field-shell {
+    @apply h-12 w-full rounded-2xl border border-black/8 bg-white/90 px-4 text-sm text-ink-950 outline-none transition focus:border-aqua-350/60 focus:ring-4 focus:ring-aqua-350/10;
+  }
+
+  .eyebrow {
+    @apply text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-ink-600;
+  }
+
+  .story-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(23, 19, 32, 0.12) transparent;
+  }
+}

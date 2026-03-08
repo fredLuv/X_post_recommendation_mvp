@@ -1,0 +1,121 @@
+{
+  "source": {
+    "type": "curated_account_set",
+    "platform": "x",
+    "captured_at": "2026-03-08T20:00:00-08:00",
+    "notes": [
+      "Curated crypto KOL set focused on public commentary, thesis framing, and market narrative signal.",
+      "Selected for broad crypto relevance and public profile accessibility on X."
+    ]
+  },
+  "accounts": [
+    {
+      "handle": "VitalikButerin",
+      "url": "https://x.com/VitalikButerin",
+      "category": "founder",
+      "reason": "Protocol-level Ethereum and broader crypto-policy framing."
+    },
+    {
+      "handle": "aeyakovenko",
+      "url": "https://x.com/aeyakovenko",
+      "category": "founder",
+      "reason": "High-signal Solana ecosystem commentary and product framing."
+    },
+    {
+      "handle": "cdixon",
+      "url": "https://x.com/cdixon",
+      "category": "investor",
+      "reason": "Clear thesis-level commentary on crypto, ownership, and AI intersection."
+    },
+    {
+      "handle": "SantiagoRoel",
+      "url": "https://x.com/SantiagoRoel",
+      "category": "investor",
+      "reason": "Active early-stage crypto and ecosystem narrative signal."
+    },
+    {
+      "handle": "RyanWatkins_",
+      "url": "https://x.com/RyanWatkins_",
+      "category": "research",
+      "reason": "Good bridge between market structure and network narrative."
+    },
+    {
+      "handle": "sassal0x",
+      "url": "https://x.com/sassal0x",
+      "category": "research",
+      "reason": "Ethereum-native commentary and ecosystem-level interpretation."
+    },
+    {
+      "handle": "milesdeutscher",
+      "url": "https://x.com/milesdeutscher",
+      "category": "market",
+      "reason": "Retail-facing market and sector rotation signal."
+    },
+    {
+      "handle": "Mando_CTM",
+      "url": "https://x.com/Mando_CTM",
+      "category": "market",
+      "reason": "Narrative and attention-flow signal around liquid crypto markets."
+    },
+    {
+      "handle": "hsakaTrades",
+      "url": "https://x.com/hsakaTrades",
+      "category": "market",
+      "reason": "High-signal market and positioning commentary."
+    },
+    {
+      "handle": "cobie",
+      "url": "https://x.com/cobie",
+      "category": "market",
+      "reason": "Narrative-rich crypto commentary with broad audience reach."
+    },
+    {
+      "handle": "punk6529",
+      "url": "https://x.com/punk6529",
+      "category": "market",
+      "reason": "High-signal commentary on crypto culture, market structure, and digital ownership."
+    },
+    {
+      "handle": "DegenSpartan",
+      "url": "https://x.com/DegenSpartan",
+      "category": "market",
+      "reason": "Macro and liquid-market commentary with strong attention-flow signal."
+    },
+    {
+      "handle": "KyleSamani",
+      "url": "https://x.com/KyleSamani",
+      "category": "investor",
+      "reason": "Infrastructure and crypto-market framing from a well-known VC perspective."
+    },
+    {
+      "handle": "joemccann",
+      "url": "https://x.com/joemccann",
+      "category": "investor",
+      "reason": "Active cross-section of macro, liquid tokens, and market narrative."
+    },
+    {
+      "handle": "StaniKulechov",
+      "url": "https://x.com/StaniKulechov",
+      "category": "founder",
+      "reason": "DeFi, protocol design, and social graph commentary from the Aave/Lens ecosystem."
+    },
+    {
+      "handle": "haydenzadams",
+      "url": "https://x.com/haydenzadams",
+      "category": "founder",
+      "reason": "DEX and market structure framing from the Uniswap ecosystem."
+    },
+    {
+      "handle": "danrobinson",
+      "url": "https://x.com/danrobinson",
+      "category": "research",
+      "reason": "Thoughtful market structure and protocol analysis with explanatory depth."
+    },
+    {
+      "handle": "Arthur_0x",
+      "url": "https://x.com/Arthur_0x",
+      "category": "market",
+      "reason": "Strong retail-market and narrative commentary with clear positioning signal."
+    }
+  ]
+}

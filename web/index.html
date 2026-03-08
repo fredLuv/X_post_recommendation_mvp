@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>X Trend Idea MVP</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero__copy">
+          <p class="eyebrow">Public Crypto Snapshot</p>
+          <h1>Explanation-first recommendation radar</h1>
+          <p class="hero__lede">
+            Inspect clustered crypto narratives, supporting evidence, and content angles without
+            pretending the scoring is more precise than the data.
+          </p>
+        </div>
+        <div class="hero__panel">
+          <label class="field">
+            <span>Audience ID</span>
+            <input
+              id="audience-id"
+              type="text"
+              value="b3564638-516e-4592-98b6-a21cc59a27cb"
+              spellcheck="false"
+            />
+          </label>
+          <div class="hero__actions">
+            <button id="refresh-button" type="button">Refresh</button>
+            <button id="toggle-evidence-button" class="button--ghost" type="button">
+              Collapse Evidence
+            </button>
+          </div>
+          <div class="hero__meta">
+            <div>
+              <span class="label">Status</span>
+              <strong id="status-pill" class="status-pill">Idle</strong>
+            </div>
+            <div>
+              <span class="label">Rendered</span>
+              <strong id="rendered-count">0 cards</strong>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="dashboard">
+        <section class="toolbar">
+          <label class="field field--compact">
+            <span>Filter topics</span>
+            <input id="topic-filter" type="search" placeholder="solana, derivatives, chainlink…" />
+          </label>
+          <label class="field field--compact">
+            <span>View</span>
+            <select id="sort-mode">
+              <option value="recent">Newest first</option>
+              <option value="topic">Topic A-Z</option>
+            </select>
+          </label>
+        </section>
+
+        <section id="summary-strip" class="summary-strip" aria-live="polite"></section>
+        <section id="recommendation-grid" class="recommendation-grid" aria-live="polite"></section>
+        <section id="empty-state" class="empty-state hidden">
+          <h2>No recommendations found</h2>
+          <p>Try a different audience ID or refresh after rerunning the fixture pipeline.</p>
+        </section>
+      </main>
+    </div>
+
+    <template id="recommendation-card-template">
+      <article class="recommendation-card">
+        <div class="recommendation-card__header">
+          <div>
+            <p class="recommendation-card__topic"></p>
+            <h2 class="recommendation-card__title"></h2>
+          </div>
+          <time class="recommendation-card__time"></time>
+        </div>
+
+        <p class="recommendation-card__why-now"></p>
+
+        <dl class="recommendation-card__details">
+          <div>
+            <dt>Angle</dt>
+            <dd class="suggested-angle"></dd>
+          </div>
+          <div>
+            <dt>Format</dt>
+            <dd class="format"></dd>
+          </div>
+          <div>
+            <dt>Audience fit</dt>
+            <dd class="audience-fit"></dd>
+          </div>
+        </dl>
+
+        <section class="recommendation-card__evidence">
+          <div class="section-header">
+            <h3>Evidence</h3>
+            <button type="button" class="section-toggle">Hide</button>
+          </div>
+          <ul class="evidence-list"></ul>
+        </section>
+
+        <section class="recommendation-card__hooks">
+          <h3>Draft hooks</h3>
+          <ul class="hook-list"></ul>
+        </section>
+
+        <section class="recommendation-card__risks">
+          <h3>Risks</h3>
+          <ul class="risk-list"></ul>
+        </section>
+      </article>
+    </template>
+
+    <script src="/assets/app.js" type="module"></script>
+  </body>
+</html>

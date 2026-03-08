@@ -1,0 +1,90 @@
+{
+  "source": {
+    "type": "public_profile_snapshot",
+    "platform": "x",
+    "url": "https://x.com/solana",
+    "captured_at": "2026-03-08T18:54:46-08:00",
+    "notes": [
+      "This fixture was created from visible public posts on the Solana X profile page.",
+      "It is not a full API export and should be treated as partial snapshot data.",
+      "Relative timestamps on the page were normalized to approximate ISO timestamps for testing."
+    ]
+  },
+  "posts": [
+    {
+      "id": "2030117760185815126",
+      "tracked_query_id": "REPLACE_QUERY_ID_SOLANA",
+      "author_handle": "solana_devs",
+      "author_id": null,
+      "text": "Build something awesome this weekend. Awesome Solana AI is a great resource for agents, skills, and tools. GitHub - solana-foundation/awesome-solana-ai: Public repo of AI tooling to help build on Solana",
+      "created_at": "2026-03-06T12:00:00Z",
+      "lang": "en",
+      "like_count": 721,
+      "reply_count": 80,
+      "repost_count": 103,
+      "quote_count": 0,
+      "impression_count": 91000,
+      "url": "https://x.com/solana_devs/status/2030117760185815126"
+    },
+    {
+      "id": "2030525363638706627",
+      "tracked_query_id": "REPLACE_QUERY_ID_SOLANA",
+      "author_handle": "solana",
+      "author_id": null,
+      "text": "Crude Oil Futures. Up to 50x leverage on Solana. @FlashTrade",
+      "created_at": "2026-03-08T06:54:46Z",
+      "lang": "en",
+      "like_count": 583,
+      "reply_count": 98,
+      "repost_count": 85,
+      "quote_count": 0,
+      "impression_count": 74000,
+      "url": "https://x.com/solana/status/2030525363638706627"
+    },
+    {
+      "id": "2030346527466463257",
+      "tracked_query_id": "REPLACE_QUERY_ID_SOLANA",
+      "author_handle": "jito_sol",
+      "author_id": null,
+      "text": "the future is BAM",
+      "created_at": "2026-03-07T12:00:00Z",
+      "lang": "en",
+      "like_count": 130,
+      "reply_count": 34,
+      "repost_count": 15,
+      "quote_count": 0,
+      "impression_count": 30000,
+      "url": "https://x.com/jito_sol/status/2030346527466463257"
+    },
+    {
+      "id": "2030368288115671176",
+      "tracked_query_id": "REPLACE_QUERY_ID_SOLANA",
+      "author_handle": "phantom",
+      "author_id": null,
+      "text": "Boring weekend? Ship an AI agent on @Helius. Use Claude Code to build your own Solana dApp (with Phantom Connect).",
+      "created_at": "2026-03-07T19:54:46Z",
+      "lang": "en",
+      "like_count": 703,
+      "reply_count": 174,
+      "repost_count": 135,
+      "quote_count": 0,
+      "impression_count": 50000,
+      "url": "https://x.com/phantom/status/2030368288115671176"
+    },
+    {
+      "id": "2030310760153244063",
+      "tracked_query_id": "REPLACE_QUERY_ID_SOLANA",
+      "author_handle": "solanapayments",
+      "author_id": null,
+      "text": "New @MessariCrypto report dropped this week. The headline: total payment volume up 755% year-over-year, outpacing every fintech and every network. Plus stories from @SoFi, @WesternUnion, and more.",
+      "created_at": "2026-03-07T12:00:00Z",
+      "lang": "en",
+      "like_count": 151,
+      "reply_count": 27,
+      "repost_count": 36,
+      "quote_count": 0,
+      "impression_count": 34000,
+      "url": "https://x.com/solanapayments/status/2030310760153244063"
+    }
+  ]
+}

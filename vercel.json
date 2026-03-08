@@ -1,0 +1,12 @@
+{
+  "routes": [
+    {
+      "src": "/assets/(.*)",
+      "dest": "/web/dist/assets/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/main.py"
+    }
+  ]
+}
